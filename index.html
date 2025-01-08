@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Lagu</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background-color: #1e1e2f;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #f0f0f0;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        .form-container {
+            max-width: 500px;
+            width: 100%;
+            padding: 25px;
+            background: linear-gradient(145deg, #3b3b5c, #2a2a3e);
+            border-radius: 15px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+        }
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #ffd700;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            background: #25253b;
+            color: #f0f0f0;
+            font-size: 14px;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .form-container input::placeholder {
+            color: #b3b3cc;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #ffd700;
+            color: #1e1e2f;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            box-sizing: border-box;
+        }
+        .form-container button:hover {
+            background-color: #e5c100;
+        }
+        .description {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #d3d3e3;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #b3b3cc;
+        }
+        footer a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+            }
+            .form-container h1 {
+                font-size: 20px;
+            }
+            .form-container input {
+                font-size: 12px;
+                padding: 10px;
+            }
+            .form-container button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 15px;
+            }
+            .form-container h1 {
+                font-size: 18px;
+            }
+            .form-container input {
+                font-size: 12px;
+                padding: 8px;
+            }
+            .form-container button {
+                font-size: 12px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Request Lagu</h1>
+        <form id="songRequestForm">
+            <input type="text" id="song_title" name="Judul Lagu" placeholder="Judul Lagu + Artis (maks 50 karakter)" maxlength="50" required><br>
+            <input type="text" id="name" name="Nama Artis" placeholder="Name Req (maks 50 karakter)" maxlength="50" required><br>
+            <button type="submit">Kirim</button>
+        </form>
+        <p class="description">Isi form di atas untuk mengirimkan permintaan lagu Anda. Dan donate untuk play lagu req anda.😊🥳</p>
+    </div>
+    <footer>
+        &copy; 2025 <a href="https://saweria.co/Fizzx" target="_blank">Donate</a>. By Fizzx Team.
+    </footer>
+
+    <script>
+        document.getElementById('songRequestForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah form mengirim secara default
+
+            const songTitle = document.getElementById('song_title').value.trim();
+            const artistName = document.getElementById('name').value.trim();
+
+            if (songTitle.length > 50 || artistName.length > 50) {
+                Swal.fire(
+                    'Perhatian!',
+                    'Judul lagu atau nama tidak boleh lebih dari 50 karakter.',
+                    'warning'
+                );
+                return;
+            }
+
+            if (songTitle && artistName) {
+                fetch('https://formspree.io/f/xeoopdoe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "Judul Lagu": songTitle,
+                        "Nama Artis": artistName
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        Swal.fire(
+                            'Berhasil!',
+                            'Permintaan lagu Anda telah dikirim!',
+                            'success'
+                        );
+                        document.getElementById('songRequestForm').reset();
+                    } else {
+                        Swal.fire(
+                            'Oops...',
+                            'Terjadi kesalahan, coba lagi nanti.',
+                            'error'
+                        );
+                    }
+                })
+                .catch(error => {
+                    Swal.fire(
+                        'Oops...',
+                        'Tidak dapat menghubungi server.',
+                        'error'
+                    );
+                });
+            } else {
+                Swal.fire(
+                    'Perhatian!',
+                    'Mohon isi semua field sebelum mengirim.',
+                    'warning'
+                );
+            }
+        });
+    </script>
+</body>
+</html>

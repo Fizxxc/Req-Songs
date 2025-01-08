@@ -89,12 +89,72 @@
         }
         .loading {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             color: #ffd700;
-            font-size: 20px;
+            font-size: 25px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
+        .dots {
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .dots span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin: 0 2px;
+            background-color: #ffd700;
+            border-radius: 50%;
+            animation: blink 1.4s infinite ease-in-out both;
+        }
+        .dots span:nth-child(1) {
+            animation-delay: -0.5s;
+        }
+        .dots span:nth-child(2) {
+            animation-delay: -0.5s;
+        }
+        .dots span:nth-child(3) {
+            animation-delay: -0.5s;
+        }
+        .dots span:nth-child(4) {
+            animation-delay: -0.5s;
+        }
+        .dots span:nth-child(5) {
+            animation-delay: -0.5s;
+        }
+        .dots span:nth-child(6) {
+            animation-delay: -0.5s;
+        }
+        .dots span:nth-child(7) {
+            animation-delay: 0s;
+        }
+        .dots span:nth-child(8) {
+            animation-delay: 0s;
+        }
+        .dots span:nth-child(9) {
+            animation-delay: 0s;
+        }
+        .dots span:nth-child(10) {
+            animation-delay: 0s;
+        }
+        .dots span:nth-child(11) {
+            animation-delay: 0s;
+        }
+        .dots span:nth-child(12) {
+            animation-delay: 0s;
+        }
+        @keyframes blink {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
         @media (max-width: 768px) {
             .form-container {
                 padding: 20px;
@@ -131,7 +191,9 @@
     </style>
 </head>
 <body>
-    <div class="loading">Loading...</div>
+    <div class="loading">
+        <span class="dots"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+    </div>
     <div class="form-container">
         <h1>Request Lagu</h1>
         <form id="songRequestForm">
@@ -147,8 +209,10 @@
 
     <script>
         window.addEventListener('load', function() {
-            document.querySelector('.loading').style.display = 'none';
-            document.querySelector('.form-container').style.display = 'block';
+            setTimeout(function() {
+                document.querySelector('.loading').style.display = 'none';
+                document.querySelector('.form-container').style.display = 'block';
+            }, 5000); // Delay 10 detik
         });
 
         document.getElementById('songRequestForm').addEventListener('submit', function(event) {
